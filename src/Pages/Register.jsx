@@ -1,7 +1,7 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Register = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -22,28 +22,43 @@ const Register = () => {
       });
       console.log(response);
       if (response.status === 201) {
-        navigate("/");
+        Swal.fire({
+          icon: "success",
+          title: "User was registered",
+          text: `Press Okay to redirect to login page!`,
+          confirmButtonText: "Okay",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/");
+          }
+        });
       }
     } catch (error) {
       console.log("err", error);
+      Swal.fire({
+        icon: "error",
+        title: "User was not registered",
+        text: "Please check the inputs",
+        confirmButtonText: "Try Again",
+      });
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-6">
+    <div className="min-h-screen  flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-6">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-white">
+        <h2 className="mt-6 text-center text-3xl leading-9 font-extrabold ">
           Register an account
         </h2>
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className=" py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm font-medium leading-5 text-white"
+                className="block text-sm font-medium leading-5"
               >
                 Username
               </label>
@@ -68,7 +83,7 @@ const Register = () => {
             <div className="mt-6">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium leading-5 text-white"
+                className="block text-sm font-medium leading-5 "
               >
                 Password
               </label>

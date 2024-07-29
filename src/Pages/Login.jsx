@@ -37,7 +37,7 @@ const Login = () => {
         Swal.fire({
           icon: "success",
           title: "Login Successful",
-          text: `Welcome, ${userRole.role}!`,
+          text: `Welcome, ${response.data.name}!`,
           confirmButtonText: "Okay",
         }).then((result) => {
           if (result.isConfirmed) {
@@ -72,7 +72,7 @@ const Login = () => {
           </div>
 
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div className="bg-gray-50 dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div className="bg-gray-50 mx-5 sm:mx-0 dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                   <label

@@ -19,15 +19,15 @@ const Category = () => {
         <img src={beeImage} alt="bee" className="w-1/2 mt-4" />
       </div>
 
-      <div className="flex flex-col gap-14 w-3/4 z-10 mx-4 md:w-3/4 lg:w-1/2 xl:w-1/5">
+      <div className="flex flex-col items-center gap-14 w-3/4 z-10 mx-4 md:w-3/4 lg:w-1/2 xl:w-1/5">
         <p className=" font-bold z-10">Do you want to start the quiz?</p>
         <button
-          className="shadow-xl py-5 rounded-md pl-5 bg-blue-500"
+          className="shadow-xl py-5 w-3/4 rounded-md  bg-blue-500"
           onClick={() => handleStart()}
         >
           <div>
-            <div className="flex gap-4 justify-start md:justify-center">
-              <p className="font-bold text-white">Click me </p>
+            <div className="flex  justify-center md:justify-center">
+              <p className="font-bold text-white ">Click me</p>
             </div>
           </div>
         </button>

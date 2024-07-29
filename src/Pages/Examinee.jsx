@@ -102,10 +102,10 @@ function Examinee() {
 
   return (
     <div className="">
-      <div className="h-screen mx-5 mt-24 flex flex-col md:flex-row md:justify-center md:gap-24 md:mt-24">
+      <div className="h-screen mx-5 mt-4 flex flex-col md:flex-row md:justify-center md:gap-24 md:mt-24">
         <div className="flex  md:justify-between">
           <div className="">
-            <h1 className="mb-12 text-gray-500 italic md:text-xl">
+            <h1 className="mb-8 text-gray-500 italic md:text-xl">
               Question {currentQuestionIndex + 1} out of {quizData.length}
             </h1>
             <h1 className="text-xl font-extrabold mb-12 md:text-3xl">
@@ -154,10 +154,6 @@ function Examinee() {
               </div>
             );
           })}
-
-          {feedback && (
-            <div className={`mt-4 text-lg ${feedbackColor}`}>{feedback}</div>
-          )}
         </div>
       </div>
     </div>
