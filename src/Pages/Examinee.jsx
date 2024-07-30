@@ -62,10 +62,12 @@ function Examinee() {
     setIsAnswered(true);
   };
 
+  //RTK ERROR HANDLERS
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading quizzes!</div>;
   if (quizData.length === 0) return <div>No quizzes available</div>;
 
+  //PROGRESS BAR
   const currentQuestion = quizData[currentQuestionIndex];
   const totalQuestions = quizData.length;
   const progressCurrent = currentQuestionIndex + 1;
