@@ -53,7 +53,7 @@ const Register = () => {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className=" py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className=" py-8 px-4 shadow sm:rounded-lg sm:px-10 bg-gray-50">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label
@@ -116,6 +116,12 @@ const Register = () => {
               </span>
             </div>
           </form>
+          <div className="mt-10 text-center text-sm">
+            Already have an account?
+            <a href="/" className="text-blue-500 underline ml-1">
+              Sign in
+            </a>
+          </div>
         </div>
       </div>
     </div>

@@ -4,15 +4,11 @@ import { useState } from "react";
 import "./App.css";
 
 import Login from "./Pages/Login";
-
 import Examinee from "./Pages/Examinee";
-
 import Register from "./Pages/Register";
-
 import AdminDashboard from "./Pages/AdminDashboard";
 import Home from "./Pages/Home";
 import Score from "./Pages/Score";
-import ThemeToggle from "./Components/ThemeToggle";
 
 const App = () => {
   return (

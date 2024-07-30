@@ -1,15 +1,20 @@
-import { useEffect } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../redux/authSlice";
+
 import axios from "axios";
 import beeImage from "/public/images/bee.png";
 
 import Swal from "sweetalert2";
+import ThemeToggle from "../Components/ThemeToggle";
+import { login } from "../redux/authSlice";
 
 const Login = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+  const user = useSelector((state) => state.auth.user);
+  const role = useSelector((state) => state.auth.role);
 
   const {
     register,
@@ -28,19 +33,20 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        const userRole = response.data.user;
-        console.log(userRole);
+        const res = response.data;
 
-        dispatch(login({ role: userRole.role }));
+        dispatch(
+          login({ role: res.role, user: res.user, isAuthenticated: true })
+        );
 
         Swal.fire({
           icon: "success",
           title: "Login Successful",
-          text: `Welcome, ${response.data.name}!`,
+          text: `Welcome, ${response.data.user}!`,
           confirmButtonText: "Okay",
         }).then((result) => {
           if (result.isConfirmed) {
-            if (response.data.user === "admin") {
+            if (response.data.role === "admin") {
               navigate("/admin");
             } else {
               navigate("/home");
@@ -71,7 +77,7 @@ const Login = () => {
           </div>
 
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div className="bg-gray-50 mx-5 sm:mx-0 dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div className="bg-gray-50 dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                   <label

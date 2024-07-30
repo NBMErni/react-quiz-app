@@ -5,7 +5,6 @@ import quizApi from "./quizApi";
 
 export const store = configureStore({
   reducer: {
-    // questions: questionsReducer,
     auth: authReducer,
     [quizApi.reducerPath]: quizApi.reducer,
   },
