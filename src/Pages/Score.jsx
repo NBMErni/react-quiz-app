@@ -7,7 +7,7 @@ function Score() {
   const correctAnswers = query.get("correctAnswers") || 0; // Default to 0 if no query parameter
 
   return (
-    <div className="h-screen flex items-center justify-center">
+    <div className="h-screen flex items-center justify-center ">
       <div className="text-center p-8 bg-white shadow-lg rounded-lg">
         <h1 className="text-4xl font-extrabold mb-4">Congratulations!</h1>
         <p className="text-xl mb-4">You've completed the quiz.</p>

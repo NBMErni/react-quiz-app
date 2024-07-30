@@ -2,12 +2,15 @@
 import React, { useState, useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const AdminDashboard = () => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionId, setCurrentQuestionId] = useState(null);
+  const navigate = useNavigate();
 
   const {
     control,
@@ -44,10 +47,7 @@ const AdminDashboard = () => {
   const onSubmit = async (data) => {
     try {
       if (currentQuestionId) {
-        await axios.put(
-          BASE_URL + QUESTIONS_ENDPOINT + "/" + currentQuestionId,
-          data
-        );
+        await axios.put(BASE_URL + "QuizApp" + "/" + currentQuestionId, data);
         setQuestions((prev) =>
           prev.map((q) =>
             q.id === currentQuestionId ? { ...data, id: currentQuestionId } : q
@@ -76,10 +76,37 @@ const AdminDashboard = () => {
   };
 
   // Handle question deletion
-  const handleDeleteQuestion = async (id) => {
+  const handleDeleteQuestion = (id) => {
     try {
-      await axios.delete(BASE_URL + "QuizApp" + "/" + id);
-      setQuestions((prev) => prev.filter((q) => q.id !== id));
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios
+            .delete(BASE_URL + "QuizApp" + "/" + id)
+            .then(() => {
+              setQuestions((prev) => prev.filter((q) => q.id !== id));
+
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+              }).then(() => {
+                navigate("/admin");
+              });
+            })
+            .catch((error) => {
+              console.error("Error deleting question:", error);
+            });
+        }
+      });
+      console.log(id);
     } catch (error) {
       console.error("Error deleting question:", error);
     }
@@ -151,7 +178,7 @@ const AdminDashboard = () => {
                 type="button"
                 onClick={() => remove(index)}
                 className="bg-red-500 dark:text-white p-1 rounded"
-                disabled={fields.length <= 4} // Disable if there are 4 or fewer fields
+                disabled={fields.length <= 4}
               >
                 Remove
               </button>
@@ -197,13 +224,13 @@ const AdminDashboard = () => {
                 </div>
                 <button
                   onClick={() => handleEditQuestion(q.id)}
-                  className="bg-yellow-500 dark:text-white py-1 px-3 rounded mr-2"
+                  className="bg-yellow-500 text-white py-1 px-3 rounded mr-2"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDeleteQuestion(q.quizId)}
-                  className="bg-red-500 dark:text-white py-1 px-3 rounded"
+                  className="bg-red-500  py-1 px-3 rounded text-white"
                 >
                   Delete
                 </button>

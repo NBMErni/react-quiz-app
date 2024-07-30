@@ -17,7 +17,6 @@ import ThemeToggle from "./Components/ThemeToggle";
 const App = () => {
   return (
     <div>
-      <ThemeToggle />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />

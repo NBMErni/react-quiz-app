@@ -17,7 +17,7 @@ const ThemeToggle = () => {
   }, [isDarkMode]);
 
   return (
-    <div className="flex items-center justify-end my-5 mx-10">
+    <div className="flex items-center  my-5 mx-10 absolute">
       <span className="text-gray-900 dark:text-gray-100 mr-2">
         {isDarkMode ? "🌙" : "🌞"}
       </span>
