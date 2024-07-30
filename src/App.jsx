@@ -6,7 +6,7 @@ import "./App.css";
 import Login from "./Pages/Login";
 
 import Examinee from "./Pages/Examinee";
-import Examiner from "./Pages/Examiner";
+
 import Register from "./Pages/Register";
 
 import AdminDashboard from "./Pages/AdminDashboard";
@@ -25,7 +25,6 @@ const App = () => {
         <Route path="/score" element={<Score />} />
         <Route path="/register" element={<Register />} />
         <Route path="/examinee" element={<Examinee />} />
-        <Route path="/examiner" element={<Examiner />} />
       </Routes>
     </div>
   );

@@ -1,15 +1,16 @@
-import React from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/authSlice";
 import axios from "axios";
 import beeImage from "/public/images/bee.png";
 
 import Swal from "sweetalert2";
-import ThemeToggle from "../Components/ThemeToggle";
 
 const Login = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
   const {
     register,
     handleSubmit,
@@ -18,8 +19,6 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const BASE_URL = import.meta.env.VITE_BASE_URL;
 
   const onSubmit = async (data) => {
     try {
