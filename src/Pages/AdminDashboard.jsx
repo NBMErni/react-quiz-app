@@ -1,9 +1,9 @@
-// src/AdminDashboard.js
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Components/Navbar";
+import Modal from "./Modal";
 
 import {
   useGetQuizzesQuery,
@@ -14,6 +14,7 @@ import {
 
 const AdminDashboard = () => {
   const [currentQuestionId, setCurrentQuestionId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   // Fetch quizzes using RTK Query
@@ -55,6 +56,7 @@ const AdminDashboard = () => {
         refetch();
       }
       reset();
+      setShowModal(false);
     } catch (error) {
       console.error("Error submitting question:", error);
     }
@@ -68,6 +70,9 @@ const AdminDashboard = () => {
       setValue(`listOfPossibleAnswers.${index}`, answer);
     });
     setCurrentQuestionId(id);
+    setShowModal(true);
+
+    updateQuiz(id);
   };
 
   const handleDeleteQuestion = async (id) => {
@@ -83,19 +88,20 @@ const AdminDashboard = () => {
       });
 
       if (result.isConfirmed) {
-        await deleteQuiz(id).unwrap();
+        await deleteQuiz(id);
         refetch();
-
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        }).then(() => {
-          navigate("/admin");
-        });
       }
+
+      Swal.fire({
+        title: "Deleted!",
+        text: "Your file has been deleted.",
+        icon: "success",
+      }).then(() => {
+        navigate("/admin");
+      });
     } catch (error) {
       console.error("Error deleting question:", error);
+      console.log(error.error);
     }
   };
 
@@ -107,94 +113,18 @@ const AdminDashboard = () => {
           <h1 className="text-2xl font-bold mb-6 darkdark:text-white">
             Admin Dashboard
           </h1>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <Controller
-              name="question"
-              control={control}
-              rules={{ required: "Question is required" }}
-              render={({ field }) => (
-                <div>
-                  <input
-                    {...field}
-                    className="w-full p-2 border border-gray-300 rounded"
-                    placeholder="Question"
-                  />
-                  {errors.question && (
-                    <p className="text-red-500">{errors.question.message}</p>
-                  )}
-                </div>
-              )}
-            />
-            <Controller
-              name="answer"
-              control={control}
-              rules={{ required: "Answer is required" }}
-              render={({ field }) => (
-                <div>
-                  <input
-                    {...field}
-                    className="w-full p-2 border border-gray-300 rounded"
-                    placeholder="Answer"
-                  />
-                  {errors.answer && (
-                    <p className="text-red-500">{errors.answer.message}</p>
-                  )}
-                </div>
-              )}
-            />
-            {fields.map((item, index) => (
-              <div key={item.id} className="flex items-center space-x-2 mb-2">
-                <Controller
-                  name={`listOfPossibleAnswers.${index}`}
-                  control={control}
-                  rules={{
-                    required: `Possible Answer ${index + 1} is required`,
-                  }}
-                  render={({ field }) => (
-                    <div className="flex-1">
-                      <input
-                        {...field}
-                        className="w-full p-2 border border-gray-300 rounded"
-                        placeholder={`Possible Answer ${index + 1}`}
-                      />
-                      {errors.listOfPossibleAnswers?.[index] && (
-                        <p className="text-red-500">
-                          {errors.listOfPossibleAnswers[index]?.message}
-                        </p>
-                      )}
-                    </div>
-                  )}
-                />
-                <button
-                  type="button"
-                  onClick={() => remove(index)}
-                  className="bg-red-500 dark:text-white p-1 rounded"
-                  disabled={fields.length <= 4}
-                >
-                  Remove
-                </button>
-              </div>
-            ))}
-            {fields.length < 4 && (
-              <div className="flex justify-center items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => append("")}
-                  className="bg-blue-500 dark:text-white text-sm py-2 px-4 rounded"
-                >
-                  Add Possible Answer
-                </button>
-              </div>
-            )}
-            <button
-              type="submit"
-              className={`text-sm py-2 px-4 rounded ${
-                currentQuestionId ? "bg-yellow-500" : "bg-green-500"
-              } dark:text-white`}
-            >
-              {currentQuestionId ? "Update Question" : "Add Question"}
-            </button>
-          </form>
+
+          <button
+            className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+            type="button"
+            onClick={() => {
+              setCurrentQuestionId(null);
+              reset();
+              setShowModal(true);
+            }}
+          >
+            Add Question
+          </button>
           <div className="mt-6">
             <h2 className="text-xl font-semibold mb-4 dark:text-white">
               Questions List
@@ -233,6 +163,22 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal Component */}
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        currentQuestionId={currentQuestionId}
+        setValue={setValue}
+        reset={reset}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        errors={errors}
+        fields={fields}
+        append={append}
+        remove={remove}
+        control={control}
+      />
     </>
   );
 };

@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,6 +33,7 @@ const Login = () => {
 
       if (response.status === 200) {
         const res = response.data;
+        console.log(res);
 
         dispatch(
           login({ role: res.role, user: res.user, isAuthenticated: true })
@@ -42,11 +42,11 @@ const Login = () => {
         Swal.fire({
           icon: "success",
           title: "Login Successful",
-          text: `Welcome, ${response.data.user}!`,
+          text: `Welcome, ${res.user}!`,
           confirmButtonText: "Okay",
         }).then((result) => {
           if (result.isConfirmed) {
-            if (response.data.role === "admin") {
+            if (res.role === "admin") {
               navigate("/admin");
             } else {
               navigate("/home");
@@ -67,7 +67,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="h-screen flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:gap-24 lg:mt-[-100px] overflow-hidden">
+      <div className="h-screen flex flex-col justify-center items-center lg:flex-row lg:justify-center lg:gap-24 lg:mt-[-100px] lg:items-center ">
         <div className="md:w-96 lg:w-1/2 xl:w-1/4 z-10">
           <div className="flex flex-col items-center">
             <img src={beeImage} alt="bee" className="w-3/4 mt-12" />
@@ -77,7 +77,7 @@ const Login = () => {
           </div>
 
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-            <div className="bg-gray-50 dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <div className="bg-gray-50 mx-5 sm:mx-0 dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                   <label

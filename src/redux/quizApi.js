@@ -31,9 +31,6 @@ const quizApi = createApi({
         url: `/QuizApp/${id}`,
         method: "DELETE",
       }),
-      transformResponse: (response) => {
-        return response;
-      },
     }),
   }),
 });

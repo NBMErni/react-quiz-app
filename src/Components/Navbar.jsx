@@ -19,10 +19,10 @@ const Navbar = () => {
 
   return (
     <div className="flex justify-between mx-3 mt-5 items-center">
-      <div className="navbar-left">
+      <div className="">
         <span>{`Welcome ${user ? user.user : "Guest"}`}</span>
       </div>
-      <div className="navbar-right">
+      <div className="">
         <button
           onClick={handleAuthClick}
           className="px-3 py-2 bg-blue-500 rounded-md text-white"
