@@ -17,10 +17,12 @@ const Navbar = () => {
     }
   };
 
+  // console.log(user);
+
   return (
     <div className="flex justify-between mx-3 mt-5 items-center">
       <div className="">
-        <span>{`Welcome ${user ? user.user : "Guest"}`}</span>
+        <span>{`Welcome ${user ? user : "Guest"}`}</span>
       </div>
       <div className="">
         <button

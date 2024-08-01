@@ -12,9 +12,6 @@ import { login } from "../redux/authSlice";
 const Login = () => {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-  const user = useSelector((state) => state.auth.user);
-  const role = useSelector((state) => state.auth.role);
-
   const {
     register,
     handleSubmit,

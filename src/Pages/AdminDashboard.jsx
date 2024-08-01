@@ -74,7 +74,6 @@ const AdminDashboard = () => {
 
     updateQuiz(id);
   };
-
   const handleDeleteQuestion = async (id) => {
     try {
       const result = await Swal.fire({
@@ -90,18 +89,17 @@ const AdminDashboard = () => {
       if (result.isConfirmed) {
         await deleteQuiz(id);
         refetch();
-      }
 
-      Swal.fire({
-        title: "Deleted!",
-        text: "Your file has been deleted.",
-        icon: "success",
-      }).then(() => {
+        await Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+
         navigate("/admin");
-      });
+      }
     } catch (error) {
       console.error("Error deleting question:", error);
-      console.log(error.error);
     }
   };
 
