@@ -4,7 +4,13 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const quizApi = createApi({
   reducerPath: "quizApi",
-  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: BASE_URL,
+    prepareHeaders: (headers) => {
+      headers.set("Content-Type", "application/json");
+      return headers;
+    },
+  }),
   endpoints: (builder) => ({
     getQuizzes: builder.query({
       query: () => "/QuizApp",

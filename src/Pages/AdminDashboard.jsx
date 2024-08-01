@@ -45,14 +45,23 @@ const AdminDashboard = () => {
 
   const onSubmit = async (data) => {
     try {
+      console.log("Submitting data:", data);
       if (currentQuestionId) {
         // Update existing quiz
-        await updateQuiz({ id: currentQuestionId, ...data }).unwrap();
+        const payload = {
+          id: currentQuestionId,
+          updatedQuiz: {
+            question: data.question,
+            answer: data.answer,
+            listOfPossibleAnswers: data.listOfPossibleAnswers,
+          },
+        };
+        await updateQuiz(payload);
         refetch();
         setCurrentQuestionId(null);
       } else {
         // Add new quiz
-        await createQuiz(data).unwrap();
+        await createQuiz(data);
         refetch();
       }
       reset();
@@ -61,7 +70,6 @@ const AdminDashboard = () => {
       console.error("Error submitting question:", error);
     }
   };
-
   const handleEditQuestion = (id) => {
     const questionToEdit = questions.find((q) => q.quizId === id);
     setValue("question", questionToEdit.question);
@@ -71,9 +79,8 @@ const AdminDashboard = () => {
     });
     setCurrentQuestionId(id);
     setShowModal(true);
-
-    updateQuiz(id);
   };
+
   const handleDeleteQuestion = async (id) => {
     try {
       const result = await Swal.fire({
@@ -108,7 +115,7 @@ const AdminDashboard = () => {
       <Navbar />
       <div className="h-full sm:h-full md:h-full lg:h-screen">
         <div className="max-w-5xl mx-auto p-6">
-          <h1 className="text-2xl font-bold mb-6 darkdark:text-white">
+          <h1 className="text-2xl font-bold mb-6 dark:text-white">
             Admin Dashboard
           </h1>
 
